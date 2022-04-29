@@ -21,19 +21,11 @@ _G.helper = {
 _G.helper.projects = { 
     {
         id = 1,
-        name = "baidu",
+        name = "My Project",
         icon = "🚀",
-        dir  = "/Users/lanhuabao/Web/baidu/wenku",
-        lsp_dir =  "/Users/lanhuabao/Web/baidu/wenku",
-        desc = "百度文库web",
-    },
-    {
-        id = 2,
-        name = "naapi",
-        icon = "🚀",
-        dir  = "/Users/lanhuabao/Web/baidu/wenku/naapi",
-        lsp_dir = "/Users/lanhuabao/Web/baidu/wenku",
-        desc = "百度文库web naapi",
+        dir  = "~/",
+        lsp_dir =  "~/",
+        desc = "根目录",
     },
 }
 
