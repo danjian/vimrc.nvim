@@ -21,16 +21,24 @@ _G.helper = {
 _G.helper.projects = { 
     {
         id = 1,
-        name = "My Project",
+        name = "baidu",
         icon = "🚀",
-        dir  = "~/",
-        lsp_dir =  "~/",
-        desc = "根目录",
+        dir  = "/Users/lanhuabao/Web/baidu/wenku",
+        lsp_dir =  "/Users/lanhuabao/Web/baidu/wenku",
+        desc = "百度文库web",
+    },
+    {
+        id = 2,
+        name = "naapi",
+        icon = "🚀",
+        dir  = "/Users/lanhuabao/Web/baidu/wenku/naapi",
+        lsp_dir = "/Users/lanhuabao/Web/baidu/wenku",
+        desc = "百度文库web naapi",
     },
 }
 
 -- 默认项目
-_G.helper.project = helper.projects[1]
+_G.helper.project = helper.projects[1] or '~/'
 
 -- 配置nvim
 local nvim = require("nvim")

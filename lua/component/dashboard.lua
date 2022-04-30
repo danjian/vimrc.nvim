@@ -10,9 +10,6 @@ function M:setup()
         "",
         "",
         "",
-        "",
-        "",
-        "",
         " ______ _            _                                 _     __        _             ",
         "(_) |  | |        \\_|_)                       |       | |   (_|\\      | |    |       ",
         "    |  | |   _      |    _  __   _   _  _   __|    __ | |      /   _  | |  __|   __  ",
@@ -26,27 +23,24 @@ function M:setup()
         "",
         "",
         "",
-        "",
-        "",
     }
     g.dashboard_default_executive = "telescope"
-    g.dashboard_session_directory = helper.fn.stdpath("data") .. "/sessions"
     g.dashboard_custom_section = {
-        find_file = {
-            description = {"Find File           sf"},
+        _1 = {
+            description = {" File Search         sf"},
             command = 'lua require("component.telescope").findFiles()'
         },
-        file_explorer = {
-            description = {"File Manager        ff"},
+        _2 = {
+            description = {" File Manager        ff"},
             command = 'lua require("component.fileexplorer").fileManager("open")'
         },
-        find_string = {
-            description = {"Grep String         ss"},
-            command = 'lua require("component.telescope").grepString()'
+        _3 = {
+            description = {" Pick Project        sp"},
+            command = 'lua require("component.telescope").selectProjects()'
         },
-        last_session = {
-            description = {"Load Session        ls"},
-            command = 'lua vim.cmd(":silent RestoreSession")'
+        _4 = {
+            description = {" Load Session      <C-l>"},
+            command = 'lua require("component.session").load()'
         }
     }
     g.dashboard_custom_footer = {
@@ -55,7 +49,7 @@ function M:setup()
         "",
         "",
         "",
-        "",
+        "talk is cheap, show me the code",
     }
 end
 

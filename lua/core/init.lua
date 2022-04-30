@@ -35,6 +35,7 @@ function M:before()
 	helper.command('set dir=~/.vim.swcache')
 	helper.command('set udir=~/.vim.swcache')
 	helper.command('set bdir=~/.vim.swcache')
+	helper.command('set nocompatible')
 	helper.command('syntax enable')
 
 	-- disbale netrw file explorer
@@ -47,6 +48,9 @@ function M:after()
 	helper.keymap("n", "<Tab><Tab>", '<C-W>w', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>h", '<C-W>h', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>l", '<C-W>l', {noremap = true, silent = true})
+    helper.keymap("n", "<C-l>", ':lua require("component.session").load()<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<C-s>", ':lua require("component.session").save()<CR>', {noremap = true, silent = true})
+
     require("core.util"):selectProject()
 end
 

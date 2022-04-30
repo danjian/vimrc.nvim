@@ -38,7 +38,7 @@ function M:selectProjects()
 
     local view = require('nvim-tree.view')
     if view.is_visible() then
-        view.close()
+        pcall(view.close, "")
     end
 
     pickers.new(opts, {

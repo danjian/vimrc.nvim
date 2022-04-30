@@ -14,7 +14,7 @@ function M:setup()
         sort_by = "name",
         update_cwd = false,
         view = {
-            width = 35,
+            width = 30,
             height = 30,
             hide_root_folder = true,
             side = "left",
@@ -153,7 +153,7 @@ function M:setup()
     M:after()
 end
 
-function M:fileManager()
+function M:fileManager( show )
 	local view = require('nvim-tree.view')
     if view.is_visible() then
         view.close()

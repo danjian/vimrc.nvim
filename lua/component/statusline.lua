@@ -1,4 +1,4 @@
-local M = {}
+local M = {branch_state = ""}
 
 function M:setup()
     local config = {
@@ -15,7 +15,7 @@ function M:setup()
             lualine_a = {"mode"},
             lualine_b = {"branch"},
             lualine_c = {},
-            lualine_x = {"filetype","diff", "diagnostics"},
+            lualine_x = {"filetype", "diff", "diagnostics"},
             lualine_y = {"progress"},
             lualine_z = {"location"}
         },
@@ -30,26 +30,17 @@ function M:setup()
         tabline = {},
         extensions = {}
     }
-    -- M:insertComponentRight(config,{  
-    --     function()
-    --     local msg = ''
-    --     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    --     local clients = vim.lsp.get_active_clients()
-    --     if next(clients) == nil then
-    --       return msg
+    --     local git_dir = require('lualine.components.branch.git_branch').find_git_dir()
+    --     if git_dir == '' then
+    --         M:branch_state = ''
     --     end
-    --     for _, client in ipairs(clients) do
-    --       local filetypes = client.config.filetypes
-    --       if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-    --         return ' '..client.name
-    --       end
-    --     end
-    --     return msg
-    --   end,
-    --   icon = '',
-    --   color = { fg = '#ffffff', gui = '' },}
-    -- );
 
+    --     local work_tree = string.sub(git_dir,1,-5)
+    --     local output =  io.popen('git --work-tree="'..work_tree..'" --git-dir="'..git_dir..'" diff HEAD | sed -n -e "s/diff\\(.*\\)/\1/p"|head -1'):read("*all")
+    --     if output ~= '' then
+    --          M:branch_state = '✗'
+    --     end
+    -- end
     require("lualine").setup(config)
 end
 
@@ -66,7 +57,7 @@ function M:themes()
         lightgray = "#2E303E",
         inactivegray = "#1C1E26",
         dark = "#000000",
-        light = "#FFFFFF",
+        light = "#FFFFFF"
     }
 
     return {
@@ -103,8 +94,8 @@ function M:themes()
     }
 end
 
-function M:insertComponentRight(config,component)
-  table.insert(config.sections.lualine_x, component)
+function M:insertComponentRight(lualine, component)
+    table.insert(lualine, component)
 end
 
 return M
