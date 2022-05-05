@@ -23,7 +23,7 @@ function M:load()
 	end
 	local view = require('nvim-tree.view')
     if view.is_visible() then
-    	view.close()
+    	pcall(view.close,{})
     end
     require("core.util"):selectProject()
     require("component.fileexplorer").fileManager()
