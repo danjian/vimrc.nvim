@@ -54,6 +54,7 @@ function M:after()
     helper.keymap("n", "<Tab>cc", ':BufDel<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>cl", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>cr", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>e", ':e!<CR>', {noremap = true, silent = true})
 end
 
 

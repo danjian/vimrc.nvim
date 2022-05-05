@@ -1,4 +1,8 @@
-local M = {branch_state = ""}
+local M = {}
+
+local branchStatusCache = {}
+local outputCache = {}
+local diffJob = nil
 
 function M:setup()
     local config = {
@@ -30,18 +34,19 @@ function M:setup()
         tabline = {},
         extensions = {}
     }
-    --     local git_dir = require('lualine.components.branch.git_branch').find_git_dir()
-    --     if git_dir == '' then
-    --         M:branch_state = ''
-    --     end
+    -- branch status
+    M:insertComponentRight(
+        config.sections.lualine_b,
+        {
+            function()
+                return branchStatusCache[helper.vim.api.nvim_get_current_buf()] or ''
+            end,
+            color = { fg = 'yellow' }
+        }
+    )
 
-    --     local work_tree = string.sub(git_dir,1,-5)
-    --     local output =  io.popen('git --work-tree="'..work_tree..'" --git-dir="'..git_dir..'" diff HEAD | sed -n -e "s/diff\\(.*\\)/\1/p"|head -1'):read("*all")
-    --     if output ~= '' then
-    --          M:branch_state = '✗'
-    --     end
-    -- end
     require("lualine").setup(config)
+    M:after()
 end
 
 function M:themes()
@@ -94,8 +99,76 @@ function M:themes()
     }
 end
 
-function M:insertComponentRight(lualine, component)
-    table.insert(lualine, component)
+function M:updateBranchStatusArgs()
+    if #vim.fn.expand("%") == 0 then
+        M.status_args = nil
+        return
+    end
+
+    local trim = function(s)
+        return s:gsub("^%s+", ""):gsub("%s+$", "")
+    end
+
+    local git_dir = require("lualine.components.branch.git_branch").find_git_dir()
+    if git_dir == nil or git_dir == ""  then
+        M.status_args = nil
+        return
+    end
+    local work_dir = string.sub(git_dir, 1, -5)
+    local cmd = string.format('git -C %s --no-pager diff --no-color --no-ext-diff -U0',work_dir)
+
+    M.status_args = {
+        cmd = cmd,
+        on_stdout = function(_, data,e)
+            if next(data) then
+                outputCache = vim.list_extend(outputCache, data)
+            end
+        end,
+        on_stderr = function(_, data,e)
+            data = table.concat(data, "\n")
+            if #data > 0 then
+                outputCache = {}
+            end
+        end,
+        on_exit = function(id, data, event)
+            local branchStatus = ""
+            if #outputCache > 0 and trim(outputCache[1]) ~='' then
+                branchStatus = "✗"
+            end
+            branchStatusCache[helper.vim.api.nvim_get_current_buf()] = branchStatus
+        end
+    }
+    M:updateBranchStatus()
+end
+
+function M:updateBranchStatus()
+    if M.status_args ~= nil then
+        outputCache = {}
+        if diffJob then
+            diffJob:stop()
+        end
+
+        diffJob = require("core.util.job"):job(M.status_args)
+        if diffJob then
+            diffJob:start()
+        end
+    end
+end
+
+
+function M:insertComponentRight(section, component)
+    table.insert(section, component)
+end
+
+local function check(data)
+    for _, line in ipairs(data) do
+        print(line)
+    end
+end
+
+function M:after()
+    helper.command("autocmd BufEnter * lua require('component.statusline'):updateBranchStatusArgs()")
+    helper.command("autocmd BufWritePost * lua require('component.statusline'):updateBranchStatus()")
 end
 
 return M
