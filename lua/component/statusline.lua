@@ -17,7 +17,12 @@ function M:setup()
         },
         sections = {
             lualine_a = {"mode"},
-            lualine_b = {"branch"},
+            lualine_b = {
+                {
+                    'branch',
+                    -- icon = '',
+                }
+            },
             lualine_c = {},
             lualine_x = {"filetype", "diff", "diagnostics"},
             lualine_y = {"progress"},

@@ -31,7 +31,7 @@ function M:setup()
             command = 'lua require("component.telescope").findFiles()'
         },
         _2 = {
-            description = {" File Manager        ff"},
+            description = {" File Manager        ff"},
             command = 'lua require("component.fileexplorer").fileManager("open")'
         },
         _3 = {
