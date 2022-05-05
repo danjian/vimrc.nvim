@@ -104,10 +104,7 @@ function M:updateBranchStatusArgs()
         M.status_args = nil
         return
     end
-
-    local trim = function(s)
-        return s:gsub("^%s+", ""):gsub("%s+$", "")
-    end
+    local trim = require("core.util").trim
 
     local git_dir = require("lualine.components.branch.git_branch").find_git_dir()
     if git_dir == nil or git_dir == ""  then
