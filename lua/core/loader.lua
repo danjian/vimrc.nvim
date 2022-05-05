@@ -44,7 +44,10 @@ function M:before()
             use {"glepnir/dashboard-nvim"}
             use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/plenary.nvim"}}}
             use {"patstockwell/vim-monokai-tasty"}
+            
             use {"akinsho/bufferline.nvim", tag = "*"}
+            use {'ojroques/nvim-bufdel'}
+            
             use {"nvim-lualine/lualine.nvim"}
             use {
                 "kyazdani42/nvim-tree.lua",

@@ -51,23 +51,10 @@ function M:after()
     helper.keymap("n", "<Tab>8", ':BufferLineGoToBuffer 8<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>9", ':BufferLineGoToBuffer 9<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>0", ':BufferLineGoToBuffer 10<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cc", ':lua require("component.bufferline"):close()<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cr", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cl", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>cc", ':BufDel<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>cl", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>cr", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
 end
 
-function M:close()
-    local state = require("bufferline.state")
-    local commands = require("bufferline.commands")
-    local config = require("bufferline.config")
-    local index = commands.get_current_element_index(state)
-    for _, item in ipairs(vim.list_slice(state.components, index, index)) do
-        if config:is_tabline() then
-            helper.vim.cmd("tabclose " .. item.id)
-        else
-            helper.vim.api.nvim_buf_delete(item.id, { force = true })
-        end
-    end
-end
 
 return M
