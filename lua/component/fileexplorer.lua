@@ -171,7 +171,7 @@ end
 
 function M:after()
 	helper.keymap("n","ff",':lua require("component.fileexplorer").fileManager()<CR>',{noremap = true, silent = true})
-    helper.keymap("n", "fc", ':lua require("component.fileexplorer").focus()<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "fc", ':NvimTreeFindFile <CR>', {noremap = true, silent = true})
     helper.command("autocmd BufEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&filetype') == 'NvimTree' | quit | endif")
 end
 return M

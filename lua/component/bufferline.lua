@@ -51,9 +51,9 @@ function M:after()
     helper.keymap("n", "<Tab>8", ':BufferLineGoToBuffer 8<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>9", ':BufferLineGoToBuffer 9<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>0", ':BufferLineGoToBuffer 10<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cc", ':BufDel<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cl", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>cr", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>c", ':BufDel<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>l", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "<Tab>r", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
     helper.keymap("n", "<Tab>e", ':e!<CR>', {noremap = true, silent = true})
 end
 

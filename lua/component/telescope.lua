@@ -73,19 +73,28 @@ function M:selectProjects()
 end
 
 function M:after()
+    -- basic
 	helper.keymap("n", "sf", ':lua require("component.telescope").findFiles()<CR>', {noremap = true, silent = true})
     helper.keymap("n", "ss", ':lua require("telescope.builtin").live_grep()<CR>', {noremap = true, silent = true})
+    
+    -- LSP
     helper.keymap("n", "slr", ':lua require("telescope.builtin").lsp_references()<CR>', {noremap = true, silent = true})
     helper.keymap("n", "sld", ':lua require("telescope.builtin").lsp_definitions()<CR>', {noremap = true, silent = true})
     helper.keymap("n", "sls", ':lua require("telescope.builtin").lsp_document_symbols()<CR>', {noremap = true, silent = true})
     helper.keymap("n", "sle", ':lua require("telescope.builtin").diagnostics()<CR>', {noremap = true, silent = true})
     helper.keymap("n", "slt", ':lua require("telescope.builtin").treesitter()<CR>', {noremap = true, silent = true})
+   
+    -- buffer
     helper.keymap("n", "sb", ':lua require("telescope.builtin").buffers()<CR>', {noremap = true, silent = true})
+   
+    -- keymaps
     helper.keymap("n", "sk", ':lua require("telescope.builtin").keymaps()<CR>', {noremap = true, silent = true})
    
+    -- project
     helper.keymap("n", "sp", ':lua require("component.telescope").selectProjects()<CR>', {noremap = true, silent = true})
+    
     -- git
-    helper.keymap("n", "sgb", ':lua require("component.telescope").selectGitBranches()<CR>', {noremap = true, silent = true})
+    helper.keymap("n", "sg", ':lua require("component.telescope").selectGitBranches()<CR>', {noremap = true, silent = true})
 end
 
 function M:selectGitBranches()
