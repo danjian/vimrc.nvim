@@ -41,21 +41,10 @@ function M:setup()
 end
 
 function M:after()
-    helper.keymap("n", "<Tab>1", ':BufferLineGoToBuffer 1<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>2", ':BufferLineGoToBuffer 2<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>3", ':BufferLineGoToBuffer 3<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>4", ':BufferLineGoToBuffer 4<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>5", ':BufferLineGoToBuffer 5<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>6", ':BufferLineGoToBuffer 6<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>7", ':BufferLineGoToBuffer 7<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>8", ':BufferLineGoToBuffer 8<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>9", ':BufferLineGoToBuffer 9<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>0", ':BufferLineGoToBuffer 10<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>c", ':BufDel<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>l", ':BufferLineCloseLeft<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>r", ':BufferLineCloseRight<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>e", ':e!<CR>', {noremap = true, silent = true})
 end
 
+function M:gotoId(id)
+    require("bufferline").go_to_buffer(id, true)
+end
 
 return M

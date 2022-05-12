@@ -168,10 +168,8 @@ function M:focus()
     require("nvim-tree").focus(true)
 end
 
-
 function M:after()
-	helper.keymap("n","ff",':lua require("component.fileexplorer").fileManager()<CR>',{noremap = true, silent = true})
-    helper.keymap("n", "fc", ':NvimTreeFindFile <CR>', {noremap = true, silent = true})
-    helper.command("autocmd BufEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&filetype') == 'NvimTree' | quit | endif")
+
 end
+
 return M

@@ -1,6 +1,8 @@
 local M = {}
 
 local branchStatusCache = {}
+local bufPathCache = {}
+local projectCache = {}
 local outputCache = {}
 local diffJob = nil
 
@@ -17,12 +19,7 @@ function M:setup()
         },
         sections = {
             lualine_a = {"mode"},
-            lualine_b = {
-                {
-                    'branch',
-                    -- icon = '',
-                }
-            },
+            lualine_b = {},
             lualine_c = {},
             lualine_x = {"filetype", "diff", "diagnostics"},
             lualine_y = {"progress"},
@@ -39,14 +36,39 @@ function M:setup()
         tabline = {},
         extensions = {}
     }
-    -- branch status
+
+    -- 项目名称
+    M:insertComponentRight(
+        config.sections.lualine_b,
+        {
+            function()
+                return  projectCache[helper.vim.api.nvim_get_current_buf()] or ''
+            end,
+        }
+    )
+    -- 分支
+    M:insertComponentRight(
+        config.sections.lualine_b,
+        'branch'
+    )
+    -- 分支状态
     M:insertComponentRight(
         config.sections.lualine_b,
         {
             function()
                 return branchStatusCache[helper.vim.api.nvim_get_current_buf()] or ''
             end,
-            color = { fg = 'yellow' }
+            color = { fg = 'red' }
+        }
+    )
+    -- file path
+    M:insertComponentRight(
+        config.sections.lualine_c,
+        {
+            function()
+                return bufPathCache[helper.vim.api.nvim_get_current_buf()] or ''
+            end,
+            -- color = { fg = 'Gold' }
         }
     )
 
@@ -105,11 +127,13 @@ function M:themes()
 end
 
 function M:updateBranchStatusArgs()
-    if #vim.fn.expand("%") == 0 then
+    local current_buf = helper.vim.api.nvim_get_current_buf();
+    if #helper.vim.fn.expand("%") == 0 then
         M.status_args = nil
         return
     end
     local trim = require("core.util").trim
+    local split = require("core.util").split
 
     local git_dir = require("lualine.components.branch.git_branch").find_git_dir()
     if git_dir == nil or git_dir == ""  then
@@ -118,12 +142,17 @@ function M:updateBranchStatusArgs()
     end
     local work_dir = string.sub(git_dir, 1, -5)
     local cmd = string.format('git -C %s --no-pager diff --no-color --no-ext-diff -U0',work_dir)
+    local abs_path = helper.vim.api.nvim_buf_get_name(current_buf)
+    bufPathCache[current_buf] = string.gsub(abs_path,work_dir,"")
+    
+    t = split(work_dir,'/')
+    projectCache[current_buf] = t[#t]
 
     M.status_args = {
         cmd = cmd,
-        on_stdout = function(_, data,e)
+        on_stdout = function(_, data, e)
             if next(data) then
-                outputCache = vim.list_extend(outputCache, data)
+                outputCache = helper.vim.list_extend(outputCache, data)
             end
         end,
         on_stderr = function(_, data,e)
@@ -137,7 +166,7 @@ function M:updateBranchStatusArgs()
             if #outputCache > 0 and trim(outputCache[1]) ~='' then
                 branchStatus = "✗"
             end
-            branchStatusCache[helper.vim.api.nvim_get_current_buf()] = branchStatus
+            branchStatusCache[current_buf] = branchStatus
         end
     }
     M:updateBranchStatus()
@@ -160,12 +189,6 @@ end
 
 function M:insertComponentRight(section, component)
     table.insert(section, component)
-end
-
-local function check(data)
-    for _, line in ipairs(data) do
-        print(line)
-    end
 end
 
 function M:after()

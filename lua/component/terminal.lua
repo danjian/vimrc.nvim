@@ -40,8 +40,6 @@ function M:setup()
 end
 
 function M:after()
-    helper.keymap("n", "`t", '<CMD>lua require("FTerm").toggle()<CR>', {noremap = true, silent = true})
-    helper.keymap("t", "`t", '<C-\\><C-n>:lua require("FTerm").toggle()<CR>', {noremap = true, silent = true})
 end
 
 return M

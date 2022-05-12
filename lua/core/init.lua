@@ -16,6 +16,7 @@ function M:before()
 	helper.command('set enc=utf-8')
 	helper.command('set ruler')
 	helper.command('set number')
+	helper.command('set relativenumber')
 	helper.command('set langmenu=en')
 	helper.command('set guioptions-=r')
 	helper.command('set guioptions-=L')
@@ -43,22 +44,22 @@ function M:before()
 
 	-- disbale netrw file explorer
 	helper.command("let loaded_netrwPlugin=1")
+	-- color scheme
+	helper.command("colorscheme vim-monokai-tasty")
+	-- gitsigns
+	helper.command("autocmd BufEnter * :highlight link GitSignsCurrentLineBlame Visual")
+    -- number
+	helper.command("autocmd! InsertEnter * :set norelativenumber")
+	helper.command("autocmd! InsertLeave * :set relativenumber")
 end
 
 
-function M:after()
-	helper.command('colorscheme vim-monokai-tasty')
-	helper.keymap("n", "<Tab><Tab>", '<C-W>w', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>h", '<C-W>h', {noremap = true, silent = true})
-    helper.keymap("n", "<Tab>l", '<C-W>l', {noremap = true, silent = true})
-    helper.keymap("n", "<C-l>", ':lua require("component.session").load()<CR>', {noremap = true, silent = true})
-    helper.keymap("n", "<C-s>", ':lua require("component.session").save()<CR>', {noremap = true, silent = true})
-	helper.keymap("n", "<C-w>", ':w<CR>', {noremap = true, silent = true})
-	helper.keymap("n", "<C-c>", ':!pbcopy<CR><CR>', {noremap = true, silent = true})
-
+function M:after()    
+    -- select default project
     require("core.util"):selectProject()
 
-    helper.command("autocmd BufEnter * :highlight link GitSignsCurrentLineBlame Visual")
+    -- bind keymaps
+    require("core.keymap"):setup()
 end
 
 return M

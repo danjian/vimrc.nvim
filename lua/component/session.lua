@@ -36,7 +36,6 @@ function M:save()
 	local json = require("core.util.json")
 	local state = require("bufferline.state")
     local commands = require("bufferline.commands")
-    local config = require("bufferline.config")
     local session = {
     	project = helper.project,
     	buffers = {},
@@ -44,13 +43,13 @@ function M:save()
     }
     local length = #state.components
     local index = commands.get_current_element_index(state)
-    for _, item in ipairs(vim.list_slice(state.components, 1, length)) do
+    for _, item in ipairs(helper.vim.list_slice(state.components, 1, length)) do
 		local t = helper.vim.api.nvim_buf_get_name(item.id)
-		table.insert(session.buffers,t)	
+		table.insert(session.buffers,t)
 		if _ == index then
 			session.current = t
 		end
-    end    
+    end
 
     local f = io.open(os.getenv("HOME").."/.nvim.session","w+")
     f:write(json.encode(session))
