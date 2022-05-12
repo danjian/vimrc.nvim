@@ -69,9 +69,15 @@ function M:before()
             
             use {"nvim-lua/lsp-status.nvim"}
             use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+
             use {"lewis6991/gitsigns.nvim"}
+            use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+            
             use {"numToStr/FTerm.nvim"}
             use {'numToStr/Comment.nvim'}
+
+            use {'tpope/vim-surround'}
+
         end
     )
 end
